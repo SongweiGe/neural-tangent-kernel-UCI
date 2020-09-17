@@ -6,7 +6,7 @@ import NTK
 import tools
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-dir', default = "data", type = str, help = "data directory")
+parser.add_argument('-dir', default = "fdata", type = str, help = "data directory")
 parser.add_argument('-file', default = "result.log", type = str, help = "Output File")
 parser.add_argument('-max_tot', default = 5000, type = int, help = "Maximum number of data samples")
 parser.add_argument('-max_dep', default = 5, type = int, help = "Maximum number of depth")
@@ -50,7 +50,7 @@ for idx, dataset in enumerate(sorted(os.listdir(datadir))):
     print (idx, dataset, "\tN:", n_tot, "\td:", d, "\tc:", c)
     
     # load data
-    f = open("data/" + dataset + "/" + dic["fich1="], "r").readlines()[1:]
+    f = open("../data/" + dataset + "/" + dic["fich1="], "r").readlines()[1:]
     X = np.asarray(list(map(lambda x: list(map(float, x.split()[1:-1])), f)))
     y = np.asarray(list(map(lambda x: int(x.split()[-1]), f)))
     
@@ -83,7 +83,7 @@ for idx, dataset in enumerate(sorted(os.listdir(datadir))):
     
     # 4-fold cross-validating
     avg_acc = 0.0
-    fold = list(map(lambda x: list(map(int, x.split())), open("data/" + dataset + "/" + "conxuntos_kfold.dat", "r").readlines()))
+    fold = list(map(lambda x: list(map(int, x.split())), open("../data/" + dataset + "/" + "conxuntos_kfold.dat", "r").readlines()))
     for repeat in range(4):
         train_fold, test_fold = fold[repeat * 2], fold[repeat * 2 + 1]
         acc = alg(K[train_fold][:, train_fold], K[test_fold][:, train_fold], y[train_fold], y[test_fold], best_value, c)
